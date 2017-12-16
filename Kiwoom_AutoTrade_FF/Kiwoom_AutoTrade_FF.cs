@@ -342,7 +342,7 @@ namespace Kiwoom_AutoTrade_FF
                 else if (i == 5 || i == 7)
                     grdSettleListSummary.Columns[i].Width = 100;
                 else
-                    grdSettleListSummary.Columns[i].Width = 64;
+                    grdSettleListSummary.Columns[i].Width = 61;
 
                 if (i % 2 == 0)
                 {
@@ -356,15 +356,16 @@ namespace Kiwoom_AutoTrade_FF
             grdSettleListDetail.ColumnCount = 9;
 
             string[] arrHeader = new string[] { "종 목", "구 분", "수 량", "청산손익", "수수료", "순손익", "매입가격", "청산가격", "청산일자"};
+            bool color = false;
 
             for (int i = 0; i < grdSettleListDetail.ColumnCount; i++)
             {
                 if (i == 1 || i == 2 || i == 4)
                     grdSettleListDetail.Columns[i].Width = 50;
                 else if (i == 8)
-                    grdSettleListDetail.Columns[i].Width = 76;
+                    grdSettleListDetail.Columns[i].Width = 74;
                 else
-                    grdSettleListDetail.Columns[i].Width = 62;
+                    grdSettleListDetail.Columns[i].Width = 60;
 
                 grdSettleListDetail.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 grdSettleListDetail.Columns[i].HeaderText = arrHeader[i];
@@ -372,8 +373,15 @@ namespace Kiwoom_AutoTrade_FF
             }
             for (int i = 0; i < grdSettleListDetail.RowCount; i++)
             {
-                if (i % 2 == 0)
+                if (color)
+                {
+                    color = false;
                     grdSettleListDetail.Rows[i].DefaultCellStyle.BackColor = clrSettle[2];
+                }
+                else
+                {
+                    color = true;
+                }
             }
             
             grdSettleListDetail.ClearSelection();
@@ -400,6 +408,152 @@ namespace Kiwoom_AutoTrade_FF
                 }
             }
         } // 계좌번호 세팅
+        public void SetGrdAccount(int iNum, string[] arrData)
+        {
+            switch (iNum)
+            {
+                case 0:
+                    _bAutoTrade = new bool[jongCount];
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        _bAutoTrade[i] = false;
+                        grdAccount.Rows[i].Cells["btnAutoTrade"].Value = "수 동";
+                    }
+                    break;
+                case 1:
+                    FileStream fs = new FileStream(SetFileName("Kwansim.txt"), FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new StreamReader(fs);
+
+                    string strTemp = sr.ReadToEnd();
+                    sr.Close();
+                    fs.Close();
+
+                    if (strTemp != "")
+                    {
+                        string[] arrTemp = strTemp.Split(';');
+                        jongCount = arrTemp.Length / 3;
+                        for (int i = 0; i < jongCount; i++)
+                        {
+                            grdAccount.Rows[i].Cells[1].ReadOnly = true;
+                            grdAccount.Rows[i].Cells[1].Value = arrTemp[i * 3];
+                        }
+
+                        if (jongCount != 4)
+                        {
+                            for (int i = jongCount; i < 4; i++)
+                            {
+                                grdAccount.Rows[i].Cells[1].ReadOnly = true;
+                                grdAccount.Rows[i].Cells[1].Value = "";
+                            }
+
+                        }
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            string strData = arrData[1];
+                            if (lstACCOUNT[2].bTextColor)
+                            {
+                                SetDataFgColour(grdAccount, i, 2, strData);
+                            }
+                            if (lstACCOUNT[2].nDataType == Constants.DT_SIGN)
+                            {
+                                SetDataFgColour(grdAccount, i, 2, strData);
+                            }
+                            else
+                            {
+                                grdAccount.Rows[i].Cells[2].Value = ConvDataFormat(lstACCOUNT[2].nDataType, strData.Trim(), lstACCOUNT[2].strBeforeData, lstACCOUNT[2].strAfterData); //strData.Trim();
+                            }
+                            i = jongCount;
+                        }
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            string strData = arrData[1];
+                            if (strData == "매수")
+                            {
+                                grdAccount.Rows[i].Cells[3].Style.ForeColor = Color.Red;
+                                grdAccount.Rows[i].Cells[3].Value = strData;
+                            }
+                            else if (strData == "매도")
+                            {
+                                grdAccount.Rows[i].Cells[3].Style.ForeColor = Color.Blue;
+                                grdAccount.Rows[i].Cells[3].Value = strData;
+                            }
+                            else
+                            {
+                                grdAccount.Rows[i].Cells[3].Value = "";
+                            }
+                        }
+                    }
+                    break;
+                case 4:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            grdAccount.Rows[i].Cells[4].Value = arrData[1];
+                        }
+                    }
+                    break;
+                case 5:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            double dTemp = System.Convert.ToDouble(arrData[1]);
+                            grdAccount.Rows[i].Cells[5].Value = TransUnit(arrData[0], dTemp);
+                        }
+                    }
+                    break;
+                case 6:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            grdAccount.Rows[i].Cells[6].Value = arrData[1];
+                        }
+                    }
+                    break;
+                case 7:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            double dTemp = System.Convert.ToDouble(arrData[1]);
+                            grdAccount.Rows[i].Cells[7].Value = TransUnit(arrData[0], dTemp);
+                        }
+                    }
+                    break;
+                case 8:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            double dTemp = System.Convert.ToDouble(arrData[1]);
+                            grdAccount.Rows[i].Cells[8].Value = TransUnit(arrData[0], dTemp);
+                        }
+                    }
+                    break;
+                case 9:
+                    for (int i = 0; i < jongCount; i++)
+                    {
+                        if (arrData[0] == grdAccount.Rows[i].Cells[1].Value.ToString())
+                        {
+                            double dTemp = System.Convert.ToDouble(arrData[1]);
+                            grdAccount.Rows[i].Cells[9].Value = TransUnit(arrData[0], dTemp);
+                        }
+                    }
+                    break;
+            }
+        } // 실시간 계좌 정보 세팅
         private void SetDataHogaGrid(string[] arrData, string strRealType)
         {
             string strData;
@@ -515,96 +669,6 @@ namespace Kiwoom_AutoTrade_FF
             {
                 strErr = string.Format("조회요청 에러 [{0:s}][{0:d}]", strTRCode, iRet);
             }
-        }
-        private void txtDay_TextMouseWheel(object sender, MouseEventArgs e)
-        {
-            int move = e.Delta * SystemInformation.MouseWheelScrollLines / 360;
-
-            int year = System.Convert.ToInt32(txtDay.Text.Substring(0, 4));
-            int month = System.Convert.ToInt32(txtDay.Text.Substring(5, 2));
-            int day = System.Convert.ToInt32(txtDay.Text.Substring(8, 2));
-            if (move < 0)
-            {
-                if (month == 4 || month == 6 || month == 9 || month == 11)
-                {
-                    day++;
-                    if (day == 31)
-                    {
-                        day = 1;
-                        month++;
-                    }
-                }
-                else if (month == 2)
-                {
-                    day++;
-                    if (year % 4 == 0 && day == 30)
-                    {
-                        day = 1;
-                        month++;
-                    }
-                    else if (year % 4 != 0 && day == 29)
-                    {
-                        day = 1;
-                        month++;
-                    }
-                }
-                else
-                {
-                    day++;
-                    if (day == 32)
-                    {
-                        day = 1;
-                        month++;
-                        if (month == 13)
-                        {
-                            month = 1;
-                            year++;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                if (month == 5 || month == 7 || month == 10 || month == 12)
-                {
-                    day--;
-                    if (day == 0)
-                    {
-                        day = 30;
-                        month--;
-                    }
-                }
-                else if (month == 3)
-                {
-                    day--;
-                    if (year % 4 == 0)
-                    {
-                        day = 29;
-                        month--;
-                    }
-                    else if (year % 4 != 0)
-                    {
-                        day = 28;
-                        month--;
-                    }
-                }
-                else
-                {
-                    day--;
-                    if (day == 0)
-                    {
-                        day = 31;
-                        month--;
-                        if (month == 0)
-                        {
-                            month = 12;
-                            year--;
-                        }
-                    }
-                }
-            }
-            txtDay.Text = string.Format("{0:d4}-{1:d2}-{2:d2}", year, month, day);
         }
 
         // 서버 이벤트
@@ -1156,7 +1220,7 @@ namespace Kiwoom_AutoTrade_FF
                     jongInfoIndex = e.RowIndex;
                     hogaJongCode = grdAccount.Rows[e.RowIndex].Cells[1].Value.ToString();
                     groupBox3.Text = "종목 정보 : " + grdAccount.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    // SendJongSearch(hogaJongCode);
+                    SendJongSearch(hogaJongCode);
                 }
 
             }
@@ -1548,7 +1612,96 @@ namespace Kiwoom_AutoTrade_FF
             }
         }
 
-        
+        private void txtDay_TextMouseWheel(object sender, MouseEventArgs e)
+        {
+            int move = e.Delta* SystemInformation.MouseWheelScrollLines / 360;
+
+            int year = System.Convert.ToInt32(txtDay.Text.Substring(0, 4));
+            int month = System.Convert.ToInt32(txtDay.Text.Substring(5, 2));
+            int day = System.Convert.ToInt32(txtDay.Text.Substring(8, 2));
+            if(move > 0)
+            {
+                if (month == 4 || month == 6 || month == 9 || month == 11)
+                {
+                    day++;
+                    if (day == 31)
+                    {
+                        day = 1;
+                        month++;
+                    }   
+                }
+                else if (month == 2)
+                {
+                    day++;
+                    if (year % 4 == 0 && day == 30)
+                    {
+                        day = 1;
+                        month++;
+                    }   
+                    else if (year % 4 != 0 && day == 29)
+                    {
+                        day = 1;
+                        month++;
+                    }   
+                }
+                else
+                {
+                    day++;
+                    if (day == 32)
+                    {
+                        day = 1;
+                        month++;
+                        if (month == 13)
+                        {
+                            month = 1;
+                            year++;
+                        }
+                    }
+                        
+                }
+            }
+            else
+            {
+                if (month == 5 || month == 7 || month == 10 || month == 12)
+                {
+                    day--;
+                    if (day == 0)
+                    {
+                        day = 30;
+                        month--;
+                    }   
+                }
+                else if (month == 3)
+                {
+                    day--;
+                    if (year % 4 == 0)
+                    {
+                        day = 29;
+                        month--;
+                    }
+                    else if (year % 4 != 0)
+                    {
+                        day = 28;
+                        month--;
+                    }
+                }
+                else
+                {
+                    day--;
+                    if (day == 0)
+                    {
+                        day = 31;
+                        month--;
+                        if(month == 0)
+                        {
+                            month = 12;
+                            year--;
+                        }
+                    }   
+                }
+            }
+            txtDay.Text = string.Format("{0:d4}-{1:d2}-{2:d2}", year, month, day);
+        }
 
         private void cbChange_SelectedIndexChanged(object sender, EventArgs e)
         {

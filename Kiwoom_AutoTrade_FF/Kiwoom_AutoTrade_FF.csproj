@@ -93,6 +93,9 @@
     <EmbeddedResource Include="CurrentAuto.resx">
       <DependentUpon>CurrentAuto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="JongInfo.resx">
+      <DependentUpon>JongInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Kwansim.resx">
       <DependentUpon>Kwansim.cs</DependentUpon>
     </EmbeddedResource>
