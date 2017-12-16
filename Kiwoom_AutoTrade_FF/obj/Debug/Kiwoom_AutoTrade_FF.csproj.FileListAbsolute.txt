@@ -1,0 +1,64 @@
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe.config
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.pdb
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Interop.KFOpenAPILib.dll
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\AxInterop.KFOpenAPILib.dll
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csprojResolveAssemblyReference.cache
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Interop.KFOpenAPILib.dll
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\AxInterop.KFOpenAPILib.dll
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.ResolveComReference.cache
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kiwoom_AutoTrade_FF.resources
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Properties.Resources.resources
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.GenerateResource.Cache
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.exe
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.pdb
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kwansim.resources
+D:\[오피스] [한글]2010무인증설치\흠\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.CurrentAuto.resources
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe.config
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.ResolveComReference.cache
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.exe
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.pdb
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Interop.KFOpenAPILib.dll
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\AxInterop.KFOpenAPILib.dll
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csprojResolveAssemblyReference.cache
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kwansim.resources
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kiwoom_AutoTrade_FF.resources
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Properties.Resources.resources
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.GenerateResource.Cache
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.pdb
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Interop.KFOpenAPILib.dll
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\AxInterop.KFOpenAPILib.dll
+C:\Users\ElecAnchovyM\Downloads\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.CurrentAuto.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe.config
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.pdb
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\Interop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\bin\Debug\AxInterop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csprojResolveAssemblyReference.cache
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Interop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\AxInterop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.ResolveComReference.cache
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.CurrentAuto.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kwansim.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kiwoom_AutoTrade_FF.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Properties.Resources.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.GenerateResource.Cache
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.exe
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.pdb
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe.config
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.exe
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\bin\Debug\Kiwoom_AutoTrade_FF.pdb
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\bin\Debug\Interop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\bin\Debug\AxInterop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csprojResolveAssemblyReference.cache
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Interop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\AxInterop.KFOpenAPILib.dll
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.ResolveComReference.cache
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.CurrentAuto.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kwansim.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Kiwoom_AutoTrade_FF.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.Properties.Resources.resources
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.csproj.GenerateResource.Cache
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.exe
+D:\재태크\자동매매 프로그램\Kiwoom_AutoTrade_FF_ver_1.0.1\Kiwoom_AutoTrade_FF\obj\Debug\Kiwoom_AutoTrade_FF.pdb
