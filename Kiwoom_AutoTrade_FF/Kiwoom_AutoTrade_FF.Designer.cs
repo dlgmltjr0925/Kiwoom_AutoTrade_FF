@@ -45,6 +45,7 @@
             this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.편집EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.종목설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.자동매매설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.cbAccNo = new System.Windows.Forms.ComboBox();
@@ -52,6 +53,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.grdAccount = new System.Windows.Forms.DataGridView();
             this.btnTest = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.grdSettleListDetail = new System.Windows.Forms.DataGridView();
             this.grdSettleListSummary = new System.Windows.Forms.DataGridView();
             this.btnSearchList = new System.Windows.Forms.Button();
@@ -63,22 +65,16 @@
             this.cbChange = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.grdHoga = new System.Windows.Forms.DataGridView();
-            this.tabMenu = new System.Windows.Forms.TabControl();
-            this.tabSettle = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.axKFOpenAPI1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdAccount)).BeginInit();
+            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdSettleListDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdSettleListSummary)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdHoga)).BeginInit();
-            this.tabMenu.SuspendLayout();
-            this.tabSettle.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // axKFOpenAPI1
@@ -99,9 +95,9 @@
             // 
             this.lbTest.FormattingEnabled = true;
             this.lbTest.ItemHeight = 12;
-            this.lbTest.Location = new System.Drawing.Point(14, 553);
+            this.lbTest.Location = new System.Drawing.Point(13, 582);
             this.lbTest.Name = "lbTest";
-            this.lbTest.Size = new System.Drawing.Size(832, 40);
+            this.lbTest.Size = new System.Drawing.Size(924, 40);
             this.lbTest.TabIndex = 1;
             // 
             // menuStrip1
@@ -128,28 +124,29 @@
             // 로그인ToolStripMenuItem
             // 
             this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
-            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.로그인ToolStripMenuItem.Text = "로그인";
             this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
             // 
             // 로그아웃ToolStripMenuItem
             // 
             this.로그아웃ToolStripMenuItem.Name = "로그아웃ToolStripMenuItem";
-            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.로그아웃ToolStripMenuItem.Text = "로그아웃";
             this.로그아웃ToolStripMenuItem.Click += new System.EventHandler(this.로그아웃ToolStripMenuItem_Click);
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
             // 편집EToolStripMenuItem
             // 
             this.편집EToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.종목설정ToolStripMenuItem});
+            this.종목설정ToolStripMenuItem,
+            this.자동매매설정ToolStripMenuItem});
             this.편집EToolStripMenuItem.Name = "편집EToolStripMenuItem";
             this.편집EToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.편집EToolStripMenuItem.Text = "설정";
@@ -160,6 +157,12 @@
             this.종목설정ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.종목설정ToolStripMenuItem.Text = "관심 종목 설정";
             this.종목설정ToolStripMenuItem.Click += new System.EventHandler(this.종목설정ToolStripMenuItem_Click);
+            // 
+            // 자동매매설정ToolStripMenuItem
+            // 
+            this.자동매매설정ToolStripMenuItem.Name = "자동매매설정ToolStripMenuItem";
+            this.자동매매설정ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.자동매매설정ToolStripMenuItem.Text = "거래 옵션 설정";
             // 
             // groupBox1
             // 
@@ -219,7 +222,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grdAccount.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.grdAccount.CausesValidation = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -247,13 +249,31 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(852, 552);
+            this.btnTest.Location = new System.Drawing.Point(857, 553);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(80, 41);
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
             this.btnTest.TabIndex = 5;
             this.btnTest.Text = "test";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.grdSettleListDetail);
+            this.groupBox4.Controls.Add(this.grdSettleListSummary);
+            this.groupBox4.Controls.Add(this.btnSearchList);
+            this.groupBox4.Controls.Add(this.btnAllOne);
+            this.groupBox4.Controls.Add(this.cbCode);
+            this.groupBox4.Controls.Add(this.txtDay);
+            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.cbChange);
+            this.groupBox4.Location = new System.Drawing.Point(362, 247);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(571, 299);
+            this.groupBox4.TabIndex = 10;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "청산 내역";
             // 
             // grdSettleListDetail
             // 
@@ -278,7 +298,7 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grdSettleListDetail.DefaultCellStyle = dataGridViewCellStyle4;
-            this.grdSettleListDetail.Location = new System.Drawing.Point(12, 62);
+            this.grdSettleListDetail.Location = new System.Drawing.Point(18, 72);
             this.grdSettleListDetail.Name = "grdSettleListDetail";
             this.grdSettleListDetail.RowHeadersVisible = false;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -287,7 +307,7 @@
             this.grdSettleListDetail.RowTemplate.Height = 21;
             this.grdSettleListDetail.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.grdSettleListDetail.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.grdSettleListDetail.Size = new System.Drawing.Size(525, 177);
+            this.grdSettleListDetail.Size = new System.Drawing.Size(537, 213);
             this.grdSettleListDetail.TabIndex = 8;
             this.grdSettleListDetail.TabStop = false;
             this.grdSettleListDetail.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSettleListDetail_CellContentClick);
@@ -299,7 +319,7 @@
             this.grdSettleListSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grdSettleListSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdSettleListSummary.ColumnHeadersVisible = false;
-            this.grdSettleListSummary.Location = new System.Drawing.Point(12, 34);
+            this.grdSettleListSummary.Location = new System.Drawing.Point(18, 44);
             this.grdSettleListSummary.Name = "grdSettleListSummary";
             this.grdSettleListSummary.RowHeadersVisible = false;
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -308,13 +328,13 @@
             this.grdSettleListSummary.RowTemplate.Height = 21;
             this.grdSettleListSummary.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.grdSettleListSummary.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.grdSettleListSummary.Size = new System.Drawing.Size(525, 22);
+            this.grdSettleListSummary.Size = new System.Drawing.Size(537, 22);
             this.grdSettleListSummary.TabIndex = 8;
             this.grdSettleListSummary.TabStop = false;
             // 
             // btnSearchList
             // 
-            this.btnSearchList.Location = new System.Drawing.Point(481, 7);
+            this.btnSearchList.Location = new System.Drawing.Point(501, 15);
             this.btnSearchList.Name = "btnSearchList";
             this.btnSearchList.Size = new System.Drawing.Size(55, 21);
             this.btnSearchList.TabIndex = 3;
@@ -324,7 +344,7 @@
             // 
             // btnAllOne
             // 
-            this.btnAllOne.Location = new System.Drawing.Point(316, 7);
+            this.btnAllOne.Location = new System.Drawing.Point(338, 16);
             this.btnAllOne.Name = "btnAllOne";
             this.btnAllOne.Size = new System.Drawing.Size(55, 21);
             this.btnAllOne.TabIndex = 3;
@@ -335,7 +355,7 @@
             // 
             this.cbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCode.FormattingEnabled = true;
-            this.cbCode.Location = new System.Drawing.Point(379, 7);
+            this.cbCode.Location = new System.Drawing.Point(398, 16);
             this.cbCode.MaxDropDownItems = 4;
             this.cbCode.Name = "cbCode";
             this.cbCode.Size = new System.Drawing.Size(97, 20);
@@ -343,7 +363,7 @@
             // 
             // txtDay
             // 
-            this.txtDay.Location = new System.Drawing.Point(218, 7);
+            this.txtDay.Location = new System.Drawing.Point(241, 16);
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(90, 21);
             this.txtDay.TabIndex = 2;
@@ -354,7 +374,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(162, 11);
+            this.label3.Location = new System.Drawing.Point(181, 20);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 0;
@@ -363,7 +383,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 11);
+            this.label2.Location = new System.Drawing.Point(16, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 0;
@@ -373,9 +393,9 @@
             // 
             this.cbChange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbChange.FormattingEnabled = true;
-            this.cbChange.Location = new System.Drawing.Point(67, 7);
+            this.cbChange.Location = new System.Drawing.Point(75, 16);
             this.cbChange.Name = "cbChange";
-            this.cbChange.Size = new System.Drawing.Size(89, 20);
+            this.cbChange.Size = new System.Drawing.Size(96, 20);
             this.cbChange.TabIndex = 1;
             this.cbChange.SelectedIndexChanged += new System.EventHandler(this.cbChange_SelectedIndexChanged);
             // 
@@ -409,61 +429,12 @@
             this.grdHoga.TabIndex = 8;
             this.grdHoga.TabStop = false;
             // 
-            // tabMenu
-            // 
-            this.tabMenu.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-            this.tabMenu.Controls.Add(this.tabSettle);
-            this.tabMenu.Controls.Add(this.tabPage2);
-            this.tabMenu.Location = new System.Drawing.Point(10, 19);
-            this.tabMenu.Name = "tabMenu";
-            this.tabMenu.SelectedIndex = 0;
-            this.tabMenu.Size = new System.Drawing.Size(554, 274);
-            this.tabMenu.TabIndex = 11;
-            // 
-            // tabSettle
-            // 
-            this.tabSettle.Controls.Add(this.grdSettleListDetail);
-            this.tabSettle.Controls.Add(this.label2);
-            this.tabSettle.Controls.Add(this.grdSettleListSummary);
-            this.tabSettle.Controls.Add(this.btnAllOne);
-            this.tabSettle.Controls.Add(this.label3);
-            this.tabSettle.Controls.Add(this.txtDay);
-            this.tabSettle.Controls.Add(this.btnSearchList);
-            this.tabSettle.Controls.Add(this.cbChange);
-            this.tabSettle.Controls.Add(this.cbCode);
-            this.tabSettle.Location = new System.Drawing.Point(4, 25);
-            this.tabSettle.Name = "tabSettle";
-            this.tabSettle.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettle.Size = new System.Drawing.Size(546, 245);
-            this.tabSettle.TabIndex = 0;
-            this.tabSettle.Text = "청산내역";
-            this.tabSettle.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(546, 245);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "기간별 손익";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.tabMenu);
-            this.groupBox5.Location = new System.Drawing.Point(362, 247);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(570, 299);
-            this.groupBox5.TabIndex = 13;
-            this.groupBox5.TabStop = false;
-            // 
             // Kiwoom_AutoTrade_FF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 606);
-            this.Controls.Add(this.groupBox5);
+            this.ClientSize = new System.Drawing.Size(944, 633);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.groupBox2);
@@ -485,14 +456,12 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdAccount)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdSettleListDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdSettleListSummary)).EndInit();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdHoga)).EndInit();
-            this.tabMenu.ResumeLayout(false);
-            this.tabSettle.ResumeLayout(false);
-            this.tabSettle.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -516,6 +485,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView grdAccount;
         private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.ToolStripMenuItem 자동매매설정ToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox txtDay;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -527,10 +498,6 @@
         private System.Windows.Forms.ComboBox cbCode;
         public System.Windows.Forms.DataGridView grdSettleListSummary;
         public System.Windows.Forms.DataGridView grdSettleListDetail;
-        private System.Windows.Forms.TabControl tabMenu;
-        private System.Windows.Forms.TabPage tabSettle;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.GroupBox groupBox5;
     }
 }
 

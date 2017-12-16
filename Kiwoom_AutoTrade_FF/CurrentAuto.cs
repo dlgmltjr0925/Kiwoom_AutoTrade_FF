@@ -2306,7 +2306,7 @@ namespace Kiwoom_AutoTrade_FF
                         autoData[i, j] = System.Convert.ToDouble(grdHogaLow.Rows[j + 5].Cells[2 - i].Value.ToString());
                     }
                 }
-                buyHogaMax = System.Convert.ToInt32(grdHogaLow.Rows[10].Cells[0].Value.ToString());
+                buyHogaMax = System.Convert.ToInt32(grdHogaLow.Rows[10].Cells[2].Value.ToString());
                 if (buyHogaMax >= conTotal * sellHogaAver)
                 {
                     double[] max1 = new double[2];
@@ -2342,6 +2342,9 @@ namespace Kiwoom_AutoTrade_FF
                     {
                         buyHoga = max1[1].ToString();
                         curGoPrice = buyHoga;
+                        string[] arrData = new string[2] { autoPosition, curGoPrice };
+                        LD.SetGoalData(arrData);
+                        LD.SaveData(txtCode.Text, "grdGoal", LD.GetGoalData());
                         SetAutoTrade(0);
                         ((Kiwoom_AutoTrade_FF)this.Owner).SetGoalPrice(txtCode.Text, curGoPrice);
                     }
@@ -2707,7 +2710,7 @@ namespace Kiwoom_AutoTrade_FF
                 }
                 else
                 {
-                    laView.Text = curOrPrice + "에 " + curOrVolume + "계약 매수 주문하였습니다.";
+                    laView.Text = curOrPrice + "에 " + curOrVolume + "계약 매도 주문하였습니다.";
                     TradeLog(laView.Text);
                     TradeEx("신규매도(지정가)");
                 }
@@ -2773,6 +2776,23 @@ namespace Kiwoom_AutoTrade_FF
             }
             else if (curOrVolume == "0" && curChVolume != "0" && curState == tradeState[3] && curGoPrice != "") // 진입완료
             {
+                double intoPrice = System.Convert.ToDouble(grdAutoTrade.Rows[0].Cells[9].Value.ToString());
+                double goalPrice = System.Convert.ToDouble(grdAutoTrade.Rows[0].Cells[11].Value.ToString());
+                double tickSize = System.Convert.ToDouble(grdJongInfo.Rows[6].Cells[1].Value.ToString());
+                if (Math.Abs(goalPrice - intoPrice) < 30 * tickSize)
+                {
+                    double temp;
+                    if (curPosition == "매수")
+                    {
+                        temp = intoPrice + 30 * tickSize;
+                        grdAutoTrade.Rows[0].Cells[11].Value = temp;
+                    }
+                    else
+                    {
+                        temp = intoPrice - 30 * tickSize;
+                        grdAutoTrade.Rows[0].Cells[11].Value = temp;
+                    }
+                }
                 if (stopCancle == 0)
                 {
                     if (curPosition == "매수")
