@@ -172,7 +172,9 @@ namespace Kiwoom_AutoTrade_FF
         public double[] tickSize, tickValue;
         private string[]  goalPrice = new string[4] { "", "", "", "" };
         Dictionary<string, int> m_JongIndex = new Dictionary<string, int>();
-
+        private int searchCounter = 0;
+        private DateTime lastSearchTime = DateTime.Now;
+         
         public Kiwoom_AutoTrade_FF()
         {
             InitializeComponent();
@@ -480,6 +482,7 @@ namespace Kiwoom_AutoTrade_FF
 
         private void SendSearch()
         {
+            SearchTimer();
             if (jongCount > 0)
             {
                 strCodelist = "";
@@ -503,6 +506,7 @@ namespace Kiwoom_AutoTrade_FF
         } // 
         private void SendJongSearch(string strData)
         {
+            SearchTimer();
             m_strJongCode = strData;
 
             string strRQName = "선물옵션현재가";
@@ -1191,6 +1195,7 @@ namespace Kiwoom_AutoTrade_FF
         }
         private void btnSerchList_Click(object sender, EventArgs e) // 청산 내역 조회
         {
+            SearchTimer();
             string strTRCode = "opw30007";
             string strDate = txtDay.Text.Substring(0, 4) + txtDay.Text.Substring(5, 2) + txtDay.Text.Substring(8, 2);
             string strChange;
@@ -1311,8 +1316,10 @@ namespace Kiwoom_AutoTrade_FF
                 case Constants.DT_DATE:
                     if (strTemp.Length == 6)
                         strData = string.Format("{0:d2}/{1:d2}/{2:d2}", int.Parse(strTemp.Substring(0, 2)), int.Parse(strTemp.Substring(2, 2)), int.Parse(strTemp.Substring(4, 2)));
-                    else
+                    else if (strTemp.Length == 8)
                         strData = string.Format("{0:d4}/{1:d2}/{2:d2}", int.Parse(strTemp.Substring(0, 4)), int.Parse(strTemp.Substring(4, 2)), int.Parse(strTemp.Substring(6, 2)));
+                    else
+                        break;
                     break;
                 case Constants.DT_TIME:
                     if (strTemp.Length == 6)
@@ -1325,6 +1332,8 @@ namespace Kiwoom_AutoTrade_FF
                 case Constants.DT_ZERO_NUMBER:
                     strTemp = strTemp.Replace("+", "");
                     strTemp = strTemp.Replace("-", "");
+                    if (strTemp == "")
+                        break;
                     if (float.Parse(strTemp) == 0.00)
                     {
                         strData = nType == Constants.DT_ZERO_NUMBER ? strTemp : "";
@@ -1394,6 +1403,8 @@ namespace Kiwoom_AutoTrade_FF
         }
         public void SetSignData(DataGridView pGrid, int nRow, int nCol, string szData)
         {
+            if (szData == "") // 오류
+                szData = "3";
             string strData = szData;
             switch (int.Parse(strData))
             {
@@ -1524,16 +1535,7 @@ namespace Kiwoom_AutoTrade_FF
         
         private void btnTest_Click(object sender, EventArgs e)
         {
-            if(btnTest.Text == "test")
-            {
-                btnTest.Text = "test1";
-                TradeLog(btnTest.Text);
-            }
-            else
-            {
-                btnTest.Text = "test";
-                TradeLog(btnTest.Text);
-            }
+            SearchTimer();
         }
         public void Logger(object strData)
         {
@@ -1548,9 +1550,7 @@ namespace Kiwoom_AutoTrade_FF
                 string date = txtDay.Text.Substring(0, 4) + txtDay.Text.Substring(5, 2) + txtDay.Text.Substring(8, 2);
                 Logger(date);
             }
-        }
-
-        
+        }        
 
         private void cbChange_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1583,6 +1583,56 @@ namespace Kiwoom_AutoTrade_FF
 
             sr.Close();
             fs.Close();
+        }
+
+        public void SearchTimer()
+        {
+            DateTime now = DateTime.Now;
+            if (lastSearchTime.Hour == now.Hour)
+            {
+                if (lastSearchTime.Minute == now.Minute)
+                {
+                    if (now.Second - lastSearchTime.Second == 0)
+                    {
+                        if (now.Millisecond - lastSearchTime.Millisecond < 335)
+                            searchCounter++;
+                        else if (now.Millisecond - lastSearchTime.Millisecond >= 335 && now.Millisecond - lastSearchTime.Millisecond < 1000)
+                        {
+                            if (searchCounter > 1)
+                                searchCounter--;
+                        }
+                        else
+                            searchCounter = 1;
+                    }
+                    else if (now.Second - lastSearchTime.Second == 1)
+                    {
+                        if (now.Millisecond + 1000 - lastSearchTime.Millisecond < 335)
+                            searchCounter++;
+                        else if (now.Millisecond + 1000 - lastSearchTime.Millisecond >= 335 && now.Millisecond + 1000 - lastSearchTime.Millisecond < 1000)
+                        {
+                            if (searchCounter > 1)
+                                searchCounter--;
+                        }
+                        else
+                            searchCounter = 1;
+                    }
+                    else
+                        searchCounter = 1;
+                }
+                else
+                    searchCounter = 1;
+            }
+            else
+                searchCounter = 1;
+            lastSearchTime = now;
+
+            if (searchCounter > 4)
+            {
+                searchCounter = 3;
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            Logger(searchCounter);
         }
     }
 

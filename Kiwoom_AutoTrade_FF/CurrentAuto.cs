@@ -288,6 +288,7 @@ namespace Kiwoom_AutoTrade_FF
         private bool InitPrice = true;
         private bool _bRealTrade = false;
         private int stopCancle = 0;
+        private double intoStrong = 0;
         
 
         //information variable
@@ -524,6 +525,7 @@ namespace Kiwoom_AutoTrade_FF
         // 서버로 정보 요청 함수
         private void SendSearch() // 종목의 실시간 시세를 불러온다.
         {
+            ((Kiwoom_AutoTrade_FF)this.Owner).SearchTimer();
             if (m_strJongCode.ToString().Trim() == "")
                 return;
 
@@ -539,6 +541,7 @@ namespace Kiwoom_AutoTrade_FF
         }
         private void SendRate() // 계좌의 잔고 내용을 불러온다. 
         {
+            ((Kiwoom_AutoTrade_FF)this.Owner).SearchTimer();
             string strRQName = "잔고내역";
             string strTRCode = Constants.TR_OPW30003;
             ((Kiwoom_AutoTrade_FF)this.Owner).axKFOpenAPI1.SetInputValue("계좌번호", m_strAccNo);
@@ -556,6 +559,7 @@ namespace Kiwoom_AutoTrade_FF
         }
         private void SendChegyul() // 계좌의 주문 내용을 불러온다. 
         {
+            ((Kiwoom_AutoTrade_FF)this.Owner).SearchTimer();
             string strRQName = "주문체결내역";
             string strTRCode = Constants.TR_OPW30005;
             ((Kiwoom_AutoTrade_FF)this.Owner).axKFOpenAPI1.SetInputValue("계좌번호", m_strAccNo);
@@ -1770,7 +1774,6 @@ namespace Kiwoom_AutoTrade_FF
             {
                 strStopPrice = "1";
             }
-
             //주문수량
             int iQty = System.Convert.ToInt32(strVolume);
             if (iQty < 1)
@@ -1785,7 +1788,7 @@ namespace Kiwoom_AutoTrade_FF
                 return;
             }
             string strRQName = "주문";
-
+            ((Kiwoom_AutoTrade_FF)this.Owner).SearchTimer();
             int iRet = ((Kiwoom_AutoTrade_FF)this.Owner).axKFOpenAPI1.SendOrder(strRQName, m_strScrNo, strAccNo, iOrderType, m_strJongCode, iQty, strPrice, strStopPrice, strHogaGb, strOriNo);
 
             if (!((Kiwoom_AutoTrade_FF)this.Owner).IsError(iRet))
@@ -2194,7 +2197,7 @@ namespace Kiwoom_AutoTrade_FF
                 }
                 else
                 {
-                    insertHoga = System.Convert.ToDouble(grdHogaHigh.Rows[5].Cells[1].Value.ToString()) + 3 * tickSize;
+                    insertHoga = System.Convert.ToDouble(grdHogaHigh.Rows[5].Cells[1].Value.ToString()) + intoStrong * tickSize; // 진입강도 조절 
                     if (insertHoga - System.Convert.ToDouble(curPrice) >= 0)
                         insertHoga = System.Convert.ToDouble(grdHogaHigh.Rows[5].Cells[1].Value.ToString());
                     return insertHoga;
@@ -2222,7 +2225,7 @@ namespace Kiwoom_AutoTrade_FF
                 }
                 else
                 {
-                    insertHoga = System.Convert.ToDouble(grdHogaLow.Rows[4].Cells[1].Value.ToString()) - 3 * tickSize;
+                    insertHoga = System.Convert.ToDouble(grdHogaLow.Rows[4].Cells[1].Value.ToString()) - intoStrong * tickSize;
                     if (System.Convert.ToDouble(curPrice) - insertHoga >= 0)
                         insertHoga = System.Convert.ToDouble(grdHogaHigh.Rows[5].Cells[1].Value.ToString());
                     return insertHoga;
