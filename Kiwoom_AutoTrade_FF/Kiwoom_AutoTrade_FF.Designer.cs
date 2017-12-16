@@ -65,6 +65,7 @@
             this.cbChange = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.grdHoga = new System.Windows.Forms.DataGridView();
+            this.btnDB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.axKFOpenAPI1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -124,21 +125,21 @@
             // 로그인ToolStripMenuItem
             // 
             this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
-            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.로그인ToolStripMenuItem.Text = "로그인";
             this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
             // 
             // 로그아웃ToolStripMenuItem
             // 
             this.로그아웃ToolStripMenuItem.Name = "로그아웃ToolStripMenuItem";
-            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.로그아웃ToolStripMenuItem.Text = "로그아웃";
             this.로그아웃ToolStripMenuItem.Click += new System.EventHandler(this.로그아웃ToolStripMenuItem_Click);
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
@@ -166,6 +167,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnDB);
             this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Controls.Add(this.cbAccNo);
             this.groupBox1.Controls.Add(this.label1);
@@ -429,6 +431,16 @@
             this.grdHoga.TabIndex = 8;
             this.grdHoga.TabStop = false;
             // 
+            // btnDB
+            // 
+            this.btnDB.Location = new System.Drawing.Point(839, 17);
+            this.btnDB.Name = "btnDB";
+            this.btnDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDB.TabIndex = 3;
+            this.btnDB.Text = "DataBase";
+            this.btnDB.UseVisualStyleBackColor = true;
+            this.btnDB.Click += new System.EventHandler(this.btnDB_Click);
+            // 
             // Kiwoom_AutoTrade_FF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -498,6 +510,7 @@
         private System.Windows.Forms.ComboBox cbCode;
         public System.Windows.Forms.DataGridView grdSettleListSummary;
         public System.Windows.Forms.DataGridView grdSettleListDetail;
+        private System.Windows.Forms.Button btnDB;
     }
 }
 

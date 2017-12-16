@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
+using MySql.Data.MySqlClient;
 
 namespace Kiwoom_AutoTrade_FF
 {
@@ -38,6 +39,17 @@ namespace Kiwoom_AutoTrade_FF
             this.strAfterData = strAfterData;
         }
     }
+    public struct storeDB
+    {
+        public int realKey;  // 리얼 키
+        public int nDataType;  // 데이타 타입(0 : string, 1 : float, 2 : int)
+
+        public storeDB(int realKey, int nDataType)
+        {
+            this.realKey = realKey;
+            this.nDataType = nDataType;
+        }
+    }
     public partial class Kiwoom_AutoTrade_FF : Form
     {
         const int STGRIDACCOUNT_SIZE = 10;
@@ -54,7 +66,7 @@ namespace Kiwoom_AutoTrade_FF
             new stGRID("손절가",      "-1",   -1, 8,  Constants.DT_PRICE,          false,  Constants.DT_CENTER,     "", ""),
             new stGRID("평가손익",    "-1",   -1, 9,  Constants.DT_NONE,           false,  Constants.DT_CENTER,     "", "")
         };
-        
+
         const int STGRIDRATE_SIZE = 7;
         public stGRID[] lstRATE = new stGRID[STGRIDRATE_SIZE]
         {
@@ -152,6 +164,35 @@ namespace Kiwoom_AutoTrade_FF
             new stGRID("현재가n",      "10",   7, 1,  Constants.DT_PRICE,          true,  Constants.DT_RIGHT,     "", "")
         };
 
+        const int DB_REAL_HOGA_SIZE = 62;
+        public storeDB[] lstREALHOGA = new storeDB[DB_REAL_HOGA_SIZE]
+        {
+            new storeDB(21, 0), new storeDB(-1, 0), new storeDB(27, 1), new storeDB(28, 1),
+            new storeDB(45, 1), new storeDB(65, 2), new storeDB(85, 2), new storeDB(105, 2), // 매도호가5
+            new storeDB(44, 1), new storeDB(64, 2), new storeDB(84, 2), new storeDB(104, 2), // 매도호가4
+            new storeDB(43, 1), new storeDB(63, 2), new storeDB(83, 2), new storeDB(103, 2), // 매도호가3
+            new storeDB(42, 1), new storeDB(62, 2), new storeDB(82, 2), new storeDB(102, 2), // 매도호가2
+            new storeDB(41, 1), new storeDB(61, 2), new storeDB(81, 2), new storeDB(101, 2), // 매도호가1
+            new storeDB(51, 1), new storeDB(71, 2), new storeDB(91, 2), new storeDB(111, 2), // 매수호가1
+            new storeDB(52, 1), new storeDB(72, 2), new storeDB(92, 2), new storeDB(112, 2), // 매수호가2
+            new storeDB(53, 1), new storeDB(73, 2), new storeDB(93, 2), new storeDB(113, 2), // 매수호가3
+            new storeDB(54, 1), new storeDB(74, 2), new storeDB(94, 2), new storeDB(114, 2), // 매수호가4
+            new storeDB(55, 1), new storeDB(75, 2), new storeDB(95, 2), new storeDB(115, 2), // 매수호가5
+            new storeDB(121, 2), new storeDB(122, 2), new storeDB(123, 2), // 매도호가총잔량
+            new storeDB(125, 2), new storeDB(126, 2), new storeDB(127, 2), // 매수호가총잔량
+            new storeDB(137, 2), new storeDB(128, 2), // 호가순잔량, 순매수잔량 
+            new storeDB(600, 1), new storeDB(601, 1), new storeDB(602, 1), new storeDB(603, 1), new storeDB(604, 1), // 매도호가 등락율
+            new storeDB(610, 1), new storeDB(611, 1), new storeDB(612, 1), new storeDB(613, 1), new storeDB(614, 1)  // 매수호가 등락률
+        };
+        const int DB_REAL_TRADE_SIZE = 17;
+        public storeDB[] lstREALTRADE = new storeDB[DB_REAL_TRADE_SIZE]
+       {
+            new storeDB(20, 0), new storeDB(-1, 0), new storeDB(10, 1), new storeDB(140, 1), new storeDB(11, 1), // 매도호가 등락율
+            new storeDB(12, 1), new storeDB(27, 1), new storeDB(28, 1), new storeDB(15, 2), new storeDB(13, 2),  // 매수호가 등락률
+            new storeDB(16, 1), new storeDB(17, 1), new storeDB(18, 1), new storeDB(25, 2), new storeDB(30, 1),  // 매수호가 등락률
+            new storeDB(22, 0), new storeDB(761, 0)
+       };
+
         const string m_strRealSet = "해외선물시세;해외선물호가;해외옵션시세;해외옵션호가";
         private Dictionary<string, string> m_mapScreenNum = new Dictionary<string, string>();
         private Dictionary<string, Form> m_mapScreen = new Dictionary<string, Form>();
@@ -170,11 +211,21 @@ namespace Kiwoom_AutoTrade_FF
         private bool m_Settle = false;
         public int[] tradeVolume, stopCount;
         public double[] tickSize, tickValue;
-        private string[]  goalPrice = new string[4] { "", "", "", "" };
+        private string[] goalPrice = new string[4] { "", "", "", "" };
         Dictionary<string, int> m_JongIndex = new Dictionary<string, int>();
         private int searchCounter = 0;
         private DateTime lastSearchTime = DateTime.Now;
-         
+
+        // DB 전역 변수
+        private bool _bDataBase = false;
+        private string sHogaToday = DateTime.Today.ToString("yyyyMMdd");
+        private string sTradeToday = DateTime.Today.ToString("yyyyMMdd");
+        private string sHogaTime = DateTime.Now.ToString("HHmmss");
+        private string sTradeTime = DateTime.Now.ToString("HHmmss");
+        private int nHogaCount = 0;
+        private int nTradeCount = 0;
+        private string strConnect = "SERVER=localhost; DATABASE=ff_data; UID=root; PASSWORD=Elancho1@#;";
+
         public Kiwoom_AutoTrade_FF()
         {
             InitializeComponent();
@@ -209,7 +260,7 @@ namespace Kiwoom_AutoTrade_FF
             grdAccount.RowCount = 4;
             grdAccount.ColumnCount = 10;
 
-            string[] arrHeader = new string[10] { "구 분", "종목코드", "현재가", "포지션", "보유수량", "진입가", "청산가", "손절가", "평가손익","통화코드"};
+            string[] arrHeader = new string[10] { "구 분", "종목코드", "현재가", "포지션", "보유수량", "진입가", "청산가", "손절가", "평가손익", "통화코드" };
 
             for (int i = 0; i < grdAccount.ColumnCount; i++)
             {
@@ -332,7 +383,7 @@ namespace Kiwoom_AutoTrade_FF
             string[] arrSummary = new string[] { "매도수량", "", "매수수량", "", "청산손익", "", "순손익", "" };
             Color[] clrSettle = new Color[4]
             {Color.FromArgb(224,238,245), Color.FromArgb(241,247,251), Color.FromArgb(241,241,241), Color.FromArgb(240, 240, 240)};
-            for(int i = 0; i < grdSettleListSummary.ColumnCount; i++)
+            for (int i = 0; i < grdSettleListSummary.ColumnCount; i++)
             {
                 grdSettleListSummary.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 grdSettleListSummary.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -354,10 +405,10 @@ namespace Kiwoom_AutoTrade_FF
                     grdSettleListSummary.Rows[0].Cells[i].Style.BackColor = clrSettle[1];
             }
             grdSettleListSummary.ClearSelection();
-            
+
             grdSettleListDetail.ColumnCount = 9;
 
-            string[] arrHeader = new string[] { "종 목", "구 분", "수 량", "청산손익", "수수료", "순손익", "매입가격", "청산가격", "청산일자"};
+            string[] arrHeader = new string[] { "종 목", "구 분", "수 량", "청산손익", "수수료", "순손익", "매입가격", "청산가격", "청산일자" };
 
             for (int i = 0; i < grdSettleListDetail.ColumnCount; i++)
             {
@@ -377,7 +428,7 @@ namespace Kiwoom_AutoTrade_FF
                 if (i % 2 == 0)
                     grdSettleListDetail.Rows[i].DefaultCellStyle.BackColor = clrSettle[2];
             }
-            
+
             grdSettleListDetail.ClearSelection();
         }
 
@@ -771,11 +822,11 @@ namespace Kiwoom_AutoTrade_FF
                             int i, j, nCnt;
 
                             nCnt = 4;
-                            for(i = 0; i < nCnt; i++)
+                            for (i = 0; i < nCnt; i++)
                             {
                                 strData = axKFOpenAPI1.GetCommData(sTrCode, strRQName, i, lstSETTLE[i].strKey);
                                 strData = strData.Trim();
-                                
+
                                 if (lstSETTLE[i].bTextColor)
                                     SetDataFgColour(grdSettleListSummary, lstSETTLE[i].nRow, lstSETTLE[i].nCol, strData);
                                 if (strData != "")
@@ -818,13 +869,13 @@ namespace Kiwoom_AutoTrade_FF
                                             grdSettleListDetail.Rows[i].Cells[lstSETTLEDETAILE[j].nCol].Style.ForeColor = Color.FromArgb(0, 0, 255);    // 지정된 셀의 텍스트 색상 설정
                                         else
                                             grdSettleListDetail.Rows[i].Cells[lstSETTLEDETAILE[j].nCol].Style.ForeColor = Color.FromArgb(255, 0, 0);    // 지정된 셀의 텍스트 색상 설정
-                                    }  
+                                    }
                                     if (strData != "")
                                     {
                                         grdSettleListDetail.Rows[i].Cells[lstSETTLEDETAILE[j].nCol].Style.Alignment = (DataGridViewContentAlignment)lstSETTLEDETAILE[j].nAlign;
                                         grdSettleListDetail.Rows[i].Cells[lstSETTLEDETAILE[j].nCol].Value = ConvDataFormat(lstSETTLEDETAILE[j].nDataType, strData, lstSETTLEDETAILE[j].strBeforeData, lstSETTLEDETAILE[j].strAfterData);
                                     }
-                                    else if(strData == "")
+                                    else if (strData == "")
                                     {
                                         grdSettleListDetail.Rows[i].Cells[lstSETTLEDETAILE[j].nCol].Value = "";
                                     }
@@ -871,7 +922,7 @@ namespace Kiwoom_AutoTrade_FF
                                     grdAccount.Rows[index].Cells[lstRATE[1].nCol].Style.Alignment = (DataGridViewContentAlignment)lstRATE[1].nAlign;
                                     grdAccount.Rows[index].Cells[lstRATE[1].nCol].Value = ConvDataFormat(lstRATE[1].nDataType, strData, lstRATE[1].strBeforeData, lstRATE[1].strAfterData);
                                 }
-                                if(grdAccount.Rows[index].Cells[5].Value.ToString() != "")
+                                if (grdAccount.Rows[index].Cells[5].Value.ToString() != "")
                                 {
                                     double curPrice = System.Convert.ToDouble(grdAccount.Rows[index].Cells[2].Value);
                                     double inPrice = System.Convert.ToDouble(grdAccount.Rows[index].Cells[5].Value);
@@ -894,7 +945,7 @@ namespace Kiwoom_AutoTrade_FF
                                 {
                                     grdAccount.Rows[index].Cells[lstRATE[5].nCol].Value = "";
                                 }
-                                
+
                                 //체결
                                 if (e.sJongmokCode == hogaJongCode)
                                 {
@@ -913,11 +964,50 @@ namespace Kiwoom_AutoTrade_FF
                                     Logger(arrData[0] + "  " + arrData[1]);
                                     SetDataTickGrid(arrData);
                                 }
+                                if (_bDataBase)  // 실시간 데이터 기록
+                                {
+                                    string strQuery = "INSERT INTO " + SetTableName(e.sJongmokCode, "TRADE") + " VALUES(";
+                                    for (int j = 0; j < DB_REAL_TRADE_SIZE; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            string strJong = e.sJongmokCode.Substring(0, 2).ToUpper();
+                                            strData = SetPrimaryKey(strData, "TRADE");
+                                            strData = SetTableValue(strData, lstREALTRADE[j].nDataType);
+                                        }
+                                        else if (j == 1)
+                                        {
+                                            strData = e.sJongmokCode.Trim();
+                                            strData = SetTableValue(strData, lstREALTRADE[j].nDataType);
+                                        }
+                                        else
+                                        {
+                                            strData = axKFOpenAPI1.GetCommRealData(e.sJongmokCode, lstREALTRADE[j].realKey).Trim();
+                                            strData = SetTableValue(strData, lstREALTRADE[j].nDataType);
+                                        }
+
+                                        if (j != DB_REAL_TRADE_SIZE - 1)
+                                        {
+                                            strData += ", ";
+                                        }
+                                        else
+                                        {
+                                            strData += ")";
+                                        }
+                                        strQuery += strData;
+                                    }
+                                    MySqlConnection myConnection = new MySqlConnection(strConnect);
+                                    MySqlCommand command = new MySqlCommand("AddNewValue", myConnection);
+                                    command.CommandText = strQuery;
+                                    myConnection.Open();
+                                    command.ExecuteNonQuery();
+                                    myConnection.Close();
+                                }
 
                             }
                             if ((e.sRealType.Trim() == "해외선물호가") || (e.sRealType.Trim() == "해외옵션호가"))
                             {
-                                string[] arrData = new string[STGRIDHOGA_SIZE]; 
+                                string[] arrData = new string[STGRIDHOGA_SIZE];
                                 if (hogaJongCode == e.sJongmokCode)
                                 {
                                     for (int j = 0; j < STGRIDHOGA_SIZE; j++)
@@ -932,6 +1022,42 @@ namespace Kiwoom_AutoTrade_FF
                                         arrData[j] = strData;
                                     }
                                     SetDataHogaGrid(arrData, e.sRealType);
+                                }
+                                if (_bDataBase)  // 실시간 데이터 기록
+                                {
+                                    string strQuery = "INSERT INTO " + SetTableName(e.sJongmokCode, "HOGA") + " VALUES(";
+                                    for (int j = 0; j < DB_REAL_HOGA_SIZE; j++)
+                                    {
+                                        if (j == 0)
+                                        {
+                                            string strJong = e.sJongmokCode.Substring(0, 2).ToUpper();
+                                            strData = axKFOpenAPI1.GetCommRealData(e.sJongmokCode, lstREALHOGA[j].realKey).Trim();
+                                            strData = SetPrimaryKey(strData, "HOGA");
+                                            strData = SetTableValue(strData, lstREALHOGA[j].nDataType);
+                                        }
+                                        else if (j == 1)
+                                        {
+                                            strData = e.sJongmokCode.Trim();
+                                            strData = SetTableValue(strData, lstREALHOGA[j].nDataType);
+                                        }
+                                        else
+                                        {
+                                            strData = axKFOpenAPI1.GetCommRealData(e.sJongmokCode, lstREALHOGA[j].realKey).Trim();
+                                            strData = SetTableValue(strData, lstREALHOGA[j].nDataType);
+                                        }
+
+                                        if (j != DB_REAL_HOGA_SIZE - 1)
+                                            strData += ", ";
+                                        else
+                                            strData += ")";
+                                        strQuery += strData;
+                                    }
+                                    MySqlConnection myConnection = new MySqlConnection(strConnect);
+                                    MySqlCommand command = new MySqlCommand("AddNewValue", myConnection);
+                                    command.CommandText = strQuery;
+                                    myConnection.Open();
+                                    command.ExecuteNonQuery();
+                                    myConnection.Close();
                                 }
                             }
                             break;
@@ -965,7 +1091,7 @@ namespace Kiwoom_AutoTrade_FF
                             string strGubun = e.sGubun, strAccNo;
 
                             strAccNo = axKFOpenAPI1.GetChejanData(9201);
-                            if(strAccNo == m_AccNo)
+                            if (strAccNo == m_AccNo)
                             {
                                 if (strGubun == "1")
                                 {
@@ -1061,7 +1187,7 @@ namespace Kiwoom_AutoTrade_FF
 
             if (!GetNextScreenNum(0))
                 return;
-            
+
             m_AccNo = cbAccNo.Text;
             m_Online = true;
 
@@ -1113,7 +1239,7 @@ namespace Kiwoom_AutoTrade_FF
             m_JongIndex.Clear();
             if (jongCount > 0)
             {
-                for(int i =0; i < jongCount; i++)
+                for (int i = 0; i < jongCount; i++)
                 {
                     m_JongIndex.Add(grdAccount.Rows[i].Cells[1].Value.ToString(), i);
                 }
@@ -1167,7 +1293,7 @@ namespace Kiwoom_AutoTrade_FF
         }
         private void grdSettleListDetail_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
         private void btnAllOne_Click(object sender, EventArgs e)
         {
@@ -1528,20 +1654,94 @@ namespace Kiwoom_AutoTrade_FF
         public void SetGoalPrice(string strCode, string gPrice)
         {
             goalPrice[m_JongIndex[strCode]] = gPrice;
-            Logger("종목명 : "+strCode + ", 청산가 : " + goalPrice[m_JongIndex[strCode]]);
+            Logger("종목명 : " + strCode + ", 청산가 : " + goalPrice[m_JongIndex[strCode]]);
+        }
+
+        // DB 처리 
+        private string SetTableName(string strData1, string strData2) // 테이블 명 
+        {
+            string strData = "TB_FF_";
+            strData1 = strData1.Substring(0, 2);
+            if (strData1.ToUpper() == "CL")
+                strData += "CL_REAL_";
+            else if (strData1.ToUpper() == "GC")
+                strData += "GC_REAL_";
+            else if (strData1.ToUpper() == "ES")
+                strData += "ES_REAL_";
+            else
+                return "";
+
+            if (strData2.ToUpper() == "HOGA")
+                strData += "HOGA";
+            else if (strData2.ToUpper() == "TRADE")
+                strData += "TRADE";
+            else
+                return "";
+
+            return strData;
+        }
+        private string SetPrimaryKey(string strData1, string strData2) // Primary key 생성 
+        {
+            // strData1 : 시간 데이터, strData2 : Hoga, Trade 구분
+            if (strData2 == "HOGA")
+            {
+                int result = System.Convert.ToInt32(strData1) - System.Convert.ToInt32(sHogaTime);
+                if (result < 0) // 날짜 변경
+                {
+                    sHogaToday = DateTime.Today.ToString("yyyyMMdd");
+                    sHogaTime = strData1;
+                    nHogaCount = 0;
+                }
+                else if (result == 0)
+                {
+                    nHogaCount++;
+                }
+                else // 다음 시간
+                {
+                    sHogaTime = strData1;
+                    nHogaCount = 0;
+                }
+                return sHogaToday + sHogaTime + string.Format("{0:d2}", nHogaCount);
+            }
+            else
+            {
+                int result = System.Convert.ToInt32(strData1) - System.Convert.ToInt32(sTradeTime);
+                if (result < 0) // 날짜 변경
+                {
+                    sTradeToday = DateTime.Today.ToString("yyyyMMdd");
+                    sTradeTime = strData1;
+                    nTradeCount = 0;
+                }
+                else if (result == 0)
+                {
+                    nTradeCount++;
+                }
+                else // 다음 시간
+                {
+                    sTradeTime = strData1;
+                    nTradeCount = 0;
+                }
+                return sHogaToday + sHogaTime + string.Format("{0:d2}", nTradeCount);
+            }
+        }
+        private string SetTableValue(string strData, int nDataType) // 데이터 값
+        {
+            if (nDataType == 0)
+                return "\"" + strData + "\"";
+            else
+                return strData;
         }
 
         //test
-        
+
         private void btnTest_Click(object sender, EventArgs e)
         {
-            SearchTimer();
+
         }
         public void Logger(object strData)
         {
             lbTest.Items.Insert(0, strData);
         }
-
         private void txtDay_TextChanged(object sender, EventArgs e)
         {
             Logger(txtDay.Text);
@@ -1550,8 +1750,27 @@ namespace Kiwoom_AutoTrade_FF
                 string date = txtDay.Text.Substring(0, 4) + txtDay.Text.Substring(5, 2) + txtDay.Text.Substring(8, 2);
                 Logger(date);
             }
-        }        
+        }
+        private void btnDB_Click(object sender, EventArgs e)
+        {
+            if (_bDataBase) // DB기록중
+            {
+                btnDB.Text = "Waiting";
+                _bDataBase = false;
+                //strConnect = "";
+                //myConnection.Close();
+            }
+            else // 대기상태 -> DB기록
+            {
+                btnDB.Text = "Recoding";
+                _bDataBase = true;
+                //strConnect = "SERVER=localhost; DATABASE=ff_data; UID=root; PASSWORD=Elancho1@#;";
+                //myConnection = new MySqlConnection(strConnect);
+                //command = new MySqlCommand("AddNewValue", myConnection);
+                //myConnection.Open();
+            }
 
+        }
         private void cbChange_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_Settle)
@@ -1559,7 +1778,6 @@ namespace Kiwoom_AutoTrade_FF
                 btnSearchList.PerformClick();
             }
         }
-
         private void TradeLog(string strData)
         {
             string today = DateTime.Today.ToShortDateString();
@@ -1584,7 +1802,6 @@ namespace Kiwoom_AutoTrade_FF
             sr.Close();
             fs.Close();
         }
-
         public void SearchTimer()
         {
             DateTime now = DateTime.Now;
@@ -1681,7 +1898,6 @@ namespace Kiwoom_AutoTrade_FF
 
         public const int UM_SCREEN_CLOSE = 1000;
     }
-
     public class CommonLib
     {
         [DllImport("user32.dll", SetLastError = true)]
