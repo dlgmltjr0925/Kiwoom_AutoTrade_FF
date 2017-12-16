@@ -218,13 +218,18 @@ namespace Kiwoom_AutoTrade_FF
 
         // DB 전역 변수
         private bool _bDataBase = false;
+        /*
         private string sHogaToday = DateTime.Today.ToString("yyyyMMdd");
         private string sTradeToday = DateTime.Today.ToString("yyyyMMdd");
         private string sHogaTime = DateTime.Now.ToString("HHmmss");
         private string sTradeTime = DateTime.Now.ToString("HHmmss");
         private int nHogaCount = 0;
         private int nTradeCount = 0;
-        private string strConnect = "SERVER=localhost; DATABASE=ff_data; UID=root; PASSWORD=Elancho1@#;";
+        */
+        DB DB_CL = new DB();
+        DB DB_GC = new DB();
+        DB DB_ES = new DB();
+        private string strConnect = "SERVER=localhost; DATABASE=ff_data; UID=root; PASSWORD=1;";
 
         public Kiwoom_AutoTrade_FF()
         {
@@ -971,8 +976,14 @@ namespace Kiwoom_AutoTrade_FF
                                     {
                                         if (j == 0)
                                         {
-                                            string strJong = e.sJongmokCode.Substring(0, 2).ToUpper();
-                                            strData = SetPrimaryKey(strData, "TRADE");
+                                            string dbJong = e.sJongmokCode.Substring(0, 2).ToUpper();
+                                            strData = axKFOpenAPI1.GetCommRealData(e.sJongmokCode, lstREALTRADE[j].realKey).Trim();
+                                            if (dbJong == "CL")
+                                                strData = SetPrimaryKey(DB_CL, strData, "TRADE");
+                                            else if (dbJong == "GC")
+                                                strData = SetPrimaryKey(DB_GC, strData, "TRADE");
+                                            else if (dbJong == "ES")
+                                                strData = SetPrimaryKey(DB_ES, strData, "TRADE");
                                             strData = SetTableValue(strData, lstREALTRADE[j].nDataType);
                                         }
                                         else if (j == 1)
@@ -1030,9 +1041,14 @@ namespace Kiwoom_AutoTrade_FF
                                     {
                                         if (j == 0)
                                         {
-                                            string strJong = e.sJongmokCode.Substring(0, 2).ToUpper();
+                                            string dbJong = e.sJongmokCode.Substring(0, 2).ToUpper();
                                             strData = axKFOpenAPI1.GetCommRealData(e.sJongmokCode, lstREALHOGA[j].realKey).Trim();
-                                            strData = SetPrimaryKey(strData, "HOGA");
+                                            if (dbJong == "CL")
+                                                strData = SetPrimaryKey(DB_CL, strData, "HOGA");
+                                            else if (dbJong == "GC")
+                                                strData = SetPrimaryKey(DB_GC, strData, "HOGA");
+                                            else if (dbJong == "ES")
+                                                strData = SetPrimaryKey(DB_ES, strData, "HOGA");
                                             strData = SetTableValue(strData, lstREALHOGA[j].nDataType);
                                         }
                                         else if (j == 1)
@@ -1680,48 +1696,48 @@ namespace Kiwoom_AutoTrade_FF
 
             return strData;
         }
-        private string SetPrimaryKey(string strData1, string strData2) // Primary key 생성 
+        private string SetPrimaryKey(DB db, string strData1, string strData2) // Primary key 생성 
         {
             // strData1 : 시간 데이터, strData2 : Hoga, Trade 구분
             if (strData2 == "HOGA")
             {
-                int result = System.Convert.ToInt32(strData1) - System.Convert.ToInt32(sHogaTime);
+                int result = System.Convert.ToInt32(strData1) - System.Convert.ToInt32(db.sTime);
                 if (result < 0) // 날짜 변경
                 {
-                    sHogaToday = DateTime.Today.ToString("yyyyMMdd");
-                    sHogaTime = strData1;
-                    nHogaCount = 0;
+                    db.sToday = DateTime.Today.ToString("yyyyMMdd");
+                    db.sTime = strData1;
+                    db.nCount = 0;
                 }
                 else if (result == 0)
                 {
-                    nHogaCount++;
+                    db.nCount++;
                 }
                 else // 다음 시간
                 {
-                    sHogaTime = strData1;
-                    nHogaCount = 0;
+                    db.sTime = strData1;
+                    db.nCount = 0;
                 }
-                return sHogaToday + sHogaTime + string.Format("{0:d2}", nHogaCount);
+                return db.sToday + db.sTime + string.Format("{0:d2}", db.nCount);
             }
             else
             {
-                int result = System.Convert.ToInt32(strData1) - System.Convert.ToInt32(sTradeTime);
+                int result = System.Convert.ToInt32(strData1) - System.Convert.ToInt32(db.sTime);
                 if (result < 0) // 날짜 변경
                 {
-                    sTradeToday = DateTime.Today.ToString("yyyyMMdd");
-                    sTradeTime = strData1;
-                    nTradeCount = 0;
+                    db.sToday = DateTime.Today.ToString("yyyyMMdd");
+                    db.sTime = strData1;
+                    db.nCount = 0;
                 }
                 else if (result == 0)
                 {
-                    nTradeCount++;
+                    db.nCount++;
                 }
                 else // 다음 시간
                 {
-                    sTradeTime = strData1;
-                    nTradeCount = 0;
+                    db.sTime = strData1;
+                    db.nCount = 0;
                 }
-                return sHogaToday + sHogaTime + string.Format("{0:d2}", nTradeCount);
+                return db.sToday + db.sTime + string.Format("{0:d2}", db.nCount);
             }
         }
         private string SetTableValue(string strData, int nDataType) // 데이터 값
@@ -1771,6 +1787,12 @@ namespace Kiwoom_AutoTrade_FF
             }
 
         }
+
+        private void dB서버설정ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void cbChange_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_Settle)
@@ -1909,5 +1931,11 @@ namespace Kiwoom_AutoTrade_FF
         [DllImport("kernel32")]
         public static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
 
+    }
+    public class DB
+    {
+        public string sToday = DateTime.Today.ToString("yyyyMMdd");
+        public string sTime = DateTime.Now.ToString("HHmmss");
+        public int nCount = 0;
     }
 }

@@ -47,6 +47,7 @@
             this.종목설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.자동매매설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDB = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.cbAccNo = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -65,7 +66,7 @@
             this.cbChange = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.grdHoga = new System.Windows.Forms.DataGridView();
-            this.btnDB = new System.Windows.Forms.Button();
+            this.dB서버설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axKFOpenAPI1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -125,21 +126,21 @@
             // 로그인ToolStripMenuItem
             // 
             this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
-            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.로그인ToolStripMenuItem.Text = "로그인";
             this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
             // 
             // 로그아웃ToolStripMenuItem
             // 
             this.로그아웃ToolStripMenuItem.Name = "로그아웃ToolStripMenuItem";
-            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.로그아웃ToolStripMenuItem.Text = "로그아웃";
             this.로그아웃ToolStripMenuItem.Click += new System.EventHandler(this.로그아웃ToolStripMenuItem_Click);
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
@@ -147,7 +148,8 @@
             // 
             this.편집EToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.종목설정ToolStripMenuItem,
-            this.자동매매설정ToolStripMenuItem});
+            this.자동매매설정ToolStripMenuItem,
+            this.dB서버설정ToolStripMenuItem});
             this.편집EToolStripMenuItem.Name = "편집EToolStripMenuItem";
             this.편집EToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.편집EToolStripMenuItem.Text = "설정";
@@ -177,6 +179,16 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "계좌정보";
+            // 
+            // btnDB
+            // 
+            this.btnDB.Location = new System.Drawing.Point(839, 17);
+            this.btnDB.Name = "btnDB";
+            this.btnDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDB.TabIndex = 3;
+            this.btnDB.Text = "DataBase";
+            this.btnDB.UseVisualStyleBackColor = true;
+            this.btnDB.Click += new System.EventHandler(this.btnDB_Click);
             // 
             // btnSearch
             // 
@@ -431,15 +443,12 @@
             this.grdHoga.TabIndex = 8;
             this.grdHoga.TabStop = false;
             // 
-            // btnDB
+            // dB서버설정ToolStripMenuItem
             // 
-            this.btnDB.Location = new System.Drawing.Point(839, 17);
-            this.btnDB.Name = "btnDB";
-            this.btnDB.Size = new System.Drawing.Size(75, 23);
-            this.btnDB.TabIndex = 3;
-            this.btnDB.Text = "DataBase";
-            this.btnDB.UseVisualStyleBackColor = true;
-            this.btnDB.Click += new System.EventHandler(this.btnDB_Click);
+            this.dB서버설정ToolStripMenuItem.Name = "dB서버설정ToolStripMenuItem";
+            this.dB서버설정ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.dB서버설정ToolStripMenuItem.Text = "DB서버 설정";
+            this.dB서버설정ToolStripMenuItem.Click += new System.EventHandler(this.dB서버설정ToolStripMenuItem_Click);
             // 
             // Kiwoom_AutoTrade_FF
             // 
@@ -511,6 +520,7 @@
         public System.Windows.Forms.DataGridView grdSettleListSummary;
         public System.Windows.Forms.DataGridView grdSettleListDetail;
         private System.Windows.Forms.Button btnDB;
+        private System.Windows.Forms.ToolStripMenuItem dB서버설정ToolStripMenuItem;
     }
 }
 
