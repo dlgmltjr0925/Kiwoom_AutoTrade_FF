@@ -384,6 +384,7 @@
             this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDay.TextChanged += new System.EventHandler(this.txtDay_TextChanged);
             this.txtDay.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.txtDay_TextMouseWheel);
+            this.txtDay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txtDay_TextMouseDoubleClick);
             // 
             // label3
             // 

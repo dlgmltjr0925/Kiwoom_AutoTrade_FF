@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * 키움증권 자동매매 프로그램 
+ * 작성자 : Elancho 
+ * */
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,12 +45,13 @@ namespace Kiwoom_AutoTrade_FF
             this.strAfterData = strAfterData;
         }
     }
-    public struct storeDB
+    // 실시간 종목 정보 DB
+    public struct storeDB 
     {
         public int realKey;  // 리얼 키
         public int nDataType;  // 데이타 타입(0 : string, 1 : float, 2 : int)
 
-        public storeDB(int realKey, int nDataType)
+        public storeDB(int realKey, int nDataType)  // 생성자
         {
             this.realKey = realKey;
             this.nDataType = nDataType;
@@ -218,14 +225,6 @@ namespace Kiwoom_AutoTrade_FF
 
         // DB 전역 변수
         private bool _bDataBase = false;
-        /*
-        private string sHogaToday = DateTime.Today.ToString("yyyyMMdd");
-        private string sTradeToday = DateTime.Today.ToString("yyyyMMdd");
-        private string sHogaTime = DateTime.Now.ToString("HHmmss");
-        private string sTradeTime = DateTime.Now.ToString("HHmmss");
-        private int nHogaCount = 0;
-        private int nTradeCount = 0;
-        */
         DB DB_CL = new DB();
         DB DB_GC = new DB();
         DB DB_ES = new DB();
@@ -576,10 +575,15 @@ namespace Kiwoom_AutoTrade_FF
                 strErr = string.Format("조회요청 에러 [{0:s}][{0:d}]", strTRCode, iRet);
             }
         }
+        private void txtDay_TextMouseDoubleClick(object sender, MouseEventArgs e) // 마우스 더블 클릭시 해당일 출력
+        {
+            txtDay.Text = DateTime.Today.ToString("yyyy-MM-dd");
+        }
+
         private void txtDay_TextMouseWheel(object sender, MouseEventArgs e)
         {
             int move = e.Delta * SystemInformation.MouseWheelScrollLines / 360;
-
+            
             int year = System.Convert.ToInt32(txtDay.Text.Substring(0, 4));
             int month = System.Convert.ToInt32(txtDay.Text.Substring(5, 2));
             int day = System.Convert.ToInt32(txtDay.Text.Substring(8, 2));
@@ -680,7 +684,7 @@ namespace Kiwoom_AutoTrade_FF
             {
                 //접속 비정상 처리
                 m_Online = false;
-                Close();
+                Logger("연결이 끊어졌습니다.");
             }
         }
         private void axKFOpenAPI1_OnReceiveTrData(object sender, AxKFOpenAPILib._DKFOpenAPIEvents_OnReceiveTrDataEvent e)
@@ -1752,7 +1756,14 @@ namespace Kiwoom_AutoTrade_FF
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-
+            DateTime eventTime = DateTime.Now; // 이벤트 발생 시간 
+            DateTime closeTime = new DateTime(eventTime.Year, eventTime.Month, eventTime.Day, 06, 00, 00); // 장종시간
+            DateTime openTime = new DateTime(eventTime.Year, eventTime.Month, eventTime.Day, 07, 00, 00); // 개장시간
+            int result = openTime.CompareTo(eventTime);
+            if (closeTime.CompareTo(eventTime) == -1 && openTime.CompareTo(eventTime) == 1)
+            {
+                Logger("실시간 데이터 삭제!, 기능 구현 중!"); 
+            }
         }
         public void Logger(object strData)
         {
@@ -1773,17 +1784,11 @@ namespace Kiwoom_AutoTrade_FF
             {
                 btnDB.Text = "Waiting";
                 _bDataBase = false;
-                //strConnect = "";
-                //myConnection.Close();
             }
             else // 대기상태 -> DB기록
             {
                 btnDB.Text = "Recoding";
                 _bDataBase = true;
-                //strConnect = "SERVER=localhost; DATABASE=ff_data; UID=root; PASSWORD=Elancho1@#;";
-                //myConnection = new MySqlConnection(strConnect);
-                //command = new MySqlCommand("AddNewValue", myConnection);
-                //myConnection.Open();
             }
 
         }
